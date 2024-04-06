@@ -27,12 +27,27 @@ const Index = () => {
     setResults(dummyResults);
   };
 
-  const handleChatSend = () => {
+  const handleChatSend = async () => {
     if (chatInput.trim() !== "") {
       const userMessage = { text: chatInput, isUser: true };
-      const botMessage = { text: "This is a sample bot response.", isUser: false };
-      setChatMessages([...chatMessages, userMessage, botMessage]);
+      setChatMessages([...chatMessages, userMessage]);
       setChatInput("");
+
+      try {
+        const response = await fetch("http://localhost:3001/api/openai", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: chatInput }),
+        });
+
+        const data = await response.json();
+        const botMessage = { text: data.message, isUser: false };
+        setChatMessages([...chatMessages, userMessage, botMessage]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
