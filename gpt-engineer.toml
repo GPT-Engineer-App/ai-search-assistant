@@ -3,3 +3,6 @@ build = "npm run build"
 
 [gptengineer-app]
 project_id = "de1348cf-ed5d-4fbd-a778-466e60b8fd26"
+
+[[gptengineer-app.openapi]]
+url = "https://google-search74.p.rapidapi.com/"
